@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Ocean Pollution Report Generator</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main>
+    <h1>Ocean Pollution Report Generator</h1>
+    <p>Document pollution and generate environmental reports.</p>
+
+    <form id="pollutionForm">
+      <label for="type">Pollution Type</label>
+      <select id="type" required>
+        <option value="">Select pollution type</option>
+        <option>Plastic Waste</option>
+        <option>Oil Pollution</option>
+        <option>Fishing Nets</option>
+        <option>Other Marine Debris</option>
+      </select>
+
+      <label for="quantity">Quantity</label>
+      <input id="quantity" type="number" min="1" required>
+
+      <label for="size">Debris Size</label>
+      <select id="size" required>
+        <option value="">Select size</option>
+        <option>Small</option>
+        <option>Medium</option>
+        <option>Large</option>
+      </select>
+
+      <label for="location">Location</label>
+      <input id="location" required placeholder="e.g. Pattaya Beach">
+
+      <label for="date">Observation Date</label>
+      <input id="date" type="date" required>
+
+      <label for="notes">Observations</label>
+      <textarea id="notes" placeholder="Describe what you observed"></textarea>
+
+      <button type="submit">Generate Report</button>
+    </form>
+
+    <section id="result" hidden>
+      <h2>Environmental Report</h2>
+      <div id="report"></div>
+    </section>
+  </main>
+  <script src="script.js"></script>
+</body>
+</html>
