@@ -46,7 +46,36 @@ L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
 // Expose the map so we can add database reports later
 window.OPIRG.reportsMap = reportsMap;
 
+
 window.OPIRG.addPublicMarker = function(report) {
+
+  const marker = L.marker([
+    report.latitude,
+    report.longitude
+  ]).addTo(window.OPIRG.reportsMap);
+
+  marker.bindPopup(`
+    <strong>${report.pollution_type}</strong><br>
+    Location: ${report.location_name}<br>
+    Quantity: ${report.quantity}<br>
+    Date: ${report.observed_on}
+  `);
+
+  window.OPIRG.markers.push(marker);
+
+  // Center the map on the new report
+  window.OPIRG.reportsMap.setView(
+    [report.latitude, report.longitude],
+    12
+  );
+
+  // Open the marker popup
+  marker.openPopup();
+
+  // Return marker for the report card button
+  return marker;
+};
+
   const marker = L.marker([
     report.latitude,
     report.longitude
