@@ -1,54 +1,138 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Ocean Pollution Report Generator</title>
+  <title>OPIRG | Ocean Pollution Reporting</title>
+
   <link rel="stylesheet" href="style.css">
+
+  <!-- Leaflet map styling -->
+  <link
+    rel="stylesheet"
+    href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+  >
 </head>
+
 <body>
+  <header>
+    <h1>OPIRG</h1>
+    <p>Ocean Pollution Impact Report Generator</p>
+    <nav>
+      <a href="#submit">Submit Report</a>
+      <a href="#public-map">Pollution Map</a>
+    </nav>
+  </header>
+
   <main>
-    <h1>Ocean Pollution Report Generator</h1>
-    <p>Document pollution and generate environmental reports.</p>
 
-    <form id="pollutionForm">
-      <label for="type">Pollution Type</label>
-      <select id="type" required>
-        <option value="">Select pollution type</option>
-        <option>Plastic Waste</option>
-        <option>Oil Pollution</option>
-        <option>Fishing Nets</option>
-        <option>Other Marine Debris</option>
-      </select>
+    <!-- INTRODUCTION -->
+    <section>
+      <h2>Report Ocean Pollution</h2>
+      <p>
+        Help document marine pollution and raise awareness
+        about environmental protection.
+      </p>
+    </section>
 
-      <label for="quantity">Quantity</label>
-      <input id="quantity" type="number" min="1" required>
+    <!-- POLLUTION REPORT FORM -->
+    <section id="submit">
+      <h2>Submit a Pollution Report</h2>
 
-      <label for="size">Debris Size</label>
-      <select id="size" required>
-        <option value="">Select size</option>
-        <option>Small</option>
-        <option>Medium</option>
-        <option>Large</option>
-      </select>
+      <form id="pollutionForm">
 
-      <label for="location">Location</label>
-      <input id="location" required placeholder="e.g. Pattaya Beach">
+        <label for="type">Pollution Type</label>
+        <select id="type" required>
+          <option value="">Select pollution type</option>
+          <option>Plastic Waste</option>
+          <option>Oil Pollution</option>
+          <option>Fishing Nets</option>
+          <option>Other Marine Debris</option>
+        </select>
 
-      <label for="date">Observation Date</label>
-      <input id="date" type="date" required>
+        <label for="quantity">Quantity</label>
+        <input id="quantity" type="number" min="1" required>
 
-      <label for="notes">Observations</label>
-      <textarea id="notes" placeholder="Describe what you observed"></textarea>
+        <label for="size">Debris Size</label>
+        <select id="size" required>
+          <option value="">Select size</option>
+          <option>Small</option>
+          <option>Medium</option>
+          <option>Large</option>
+        </select>
 
-      <button type="submit">Generate Report</button>
-    </form>
+        <label for="location">Location Name</label>
+        <input
+          id="location"
+          type="text"
+          placeholder="e.g. Pattaya Beach"
+          required
+        >
 
+        <label for="date">Observation Date</label>
+        <input id="date" type="date" required>
+
+        <label for="notes">Observations</label>
+        <textarea
+          id="notes"
+          placeholder="Describe what you observed"
+        ></textarea>
+
+        <h3>Select the Pollution Location</h3>
+        <p>Click on the map to mark where pollution was observed.</p>
+
+        <div id="selectMap"></div>
+
+        <input type="hidden" id="latitude">
+        <input type="hidden" id="longitude">
+
+        <p id="selectedLocation">
+          No location selected yet.
+        </p>
+
+        <button type="submit">Generate Report</button>
+
+      </form>
+    </section>
+
+    <!-- AI REPORT -->
     <section id="result" hidden>
-      <h2>Environmental Report</h2>
+      <h2>AI Environmental Report</h2>
       <div id="report"></div>
     </section>
+
+    <!-- PUBLIC POLLUTION MAP -->
+    <section id="public-map">
+      <h2>Public Ocean Pollution Map</h2>
+      <p>
+        Explore approved pollution observations submitted
+        by the community.
+      </p>
+
+      <div id="reportsMap"></div>
+
+      <h3>Reported Pollution Incidents</h3>
+      <div id="publicReports">
+        <p>Loading public reports...</p>
+      </div>
+    </section>
+
   </main>
+
+  <footer>
+    <p>
+      OPIRG – Ocean Pollution Impact Report Generator
+    </p>
+    <p>Supporting ocean awareness through Generative AI.</p>
+  </footer>
+
+  <!-- Leaflet map library -->
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+  <!-- Application scripts -->
+  <script src="map.js"></script>
   <script src="script.js"></script>
+
 </body>
 </html>
