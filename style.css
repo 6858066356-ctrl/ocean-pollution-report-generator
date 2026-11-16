@@ -1,24 +1,76 @@
+
+/* GENERAL WEBSITE DESIGN */
+* {
+  box-sizing: border-box;
+}
+
 body {
   font-family: Arial, sans-serif;
   background: #eaf6fa;
   margin: 0;
-  padding: 30px;
   color: #173b50;
+  line-height: 1.6;
 }
 
+/* HEADER */
+header {
+  background: #075985;
+  color: white;
+  padding: 30px 20px;
+  text-align: center;
+}
+
+header h1 {
+  margin: 0;
+  font-size: 36px;
+  color: white;
+}
+
+header p {
+  margin: 5px 0 15px;
+}
+
+nav {
+  display: flex;
+  justify-content: center;
+  gap: 25px;
+  flex-wrap: wrap;
+}
+
+nav a {
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+nav a:hover {
+  text-decoration: underline;
+}
+
+/* MAIN CONTENT */
 main {
-  max-width: 700px;
-  margin: auto;
+  max-width: 1000px;
+  margin: 30px auto;
+  padding: 0 20px;
+}
+
+section {
   background: white;
   padding: 30px;
+  margin-bottom: 25px;
   border-radius: 15px;
   box-shadow: 0 4px 20px #0001;
 }
 
-h1 {
+h1, h2, h3 {
   color: #0077a8;
 }
 
+h2 {
+  margin-top: 0;
+}
+
+/* FORM */
 label {
   display: block;
   margin-top: 15px;
@@ -27,13 +79,25 @@ label {
 
 input, select, textarea {
   width: 100%;
-  box-sizing: border-box;
   padding: 12px;
   margin-top: 6px;
   border: 1px solid #bdd5df;
   border-radius: 8px;
+  font-family: inherit;
+  font-size: 15px;
 }
 
+textarea {
+  min-height: 100px;
+  resize: vertical;
+}
+
+input:focus, select:focus, textarea:focus {
+  outline: 2px solid #38bdf8;
+  border-color: #0077a8;
+}
+
+/* BUTTONS */
 button {
   background: #0077a8;
   color: white;
@@ -42,8 +106,29 @@ button {
   border-radius: 8px;
   margin-top: 20px;
   cursor: pointer;
+  font-size: 15px;
+  font-weight: bold;
 }
 
+button:hover {
+  background: #075985;
+}
+
+/* MAPS */
+#selectMap, #reportsMap {
+  width: 100%;
+  height: 400px;
+  border-radius: 12px;
+  margin-top: 15px;
+  z-index: 1;
+}
+
+#selectedLocation {
+  color: #0077a8;
+  font-weight: bold;
+}
+
+/* AI REPORT */
 #result {
   margin-top: 30px;
   padding: 20px;
@@ -53,5 +138,56 @@ button {
 
 #report {
   white-space: pre-wrap;
-  line-height: 1.6;
+  line-height: 1.7;
+}
+
+/* PUBLIC REPORTS */
+#publicReports {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 15px;
+  margin-top: 20px;
+}
+
+.report-card {
+  background: #f0f9fc;
+  padding: 18px;
+  border-radius: 10px;
+  border-left: 4px solid #0077a8;
+}
+
+.report-card h3 {
+  margin-top: 0;
+}
+
+/* FOOTER */
+footer {
+  background: #075985;
+  color: white;
+  text-align: center;
+  padding: 25px;
+  margin-top: 40px;
+}
+
+footer p {
+  margin: 5px;
+}
+
+/* MOBILE RESPONSIVENESS */
+@media (max-width: 600px) {
+  main {
+    padding: 0 12px;
+  }
+
+  section {
+    padding: 20px;
+  }
+
+  header h1 {
+    font-size: 28px;
+  }
+
+  #selectMap, #reportsMap {
+    height: 300px;
+  }
 }
