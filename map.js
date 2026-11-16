@@ -1,90 +1,134 @@
 
-// OPIRG - Interactive Pollution Maps
+// ========================================
+// OPIRG - MAP RESTORATION
+// ========================================
 
-window.OPIRG = {
-  selectedCoordinates: null
-};
+window.OPIRG = window.OPIRG || {};
 
-// Map for selecting pollution locations
-const selectMap = L.map("selectMap").setView([13.7563, 100.5018], 6);
+window.OPIRG.reports = [];
+window.OPIRG.markers = [];
 
-// Load OpenStreetMap tiles
-L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-  attribution: '&copy; OpenStreetMap contributors'
-}).addTo(selectMap);
+// Check Leaflet
+if (typeof L === "undefined") {
+  console.error("Leaflet library is not loaded!");
+  alert("Map library failed to load. Please check your internet connection.");
+} else {
 
-let selectedMarker = null;
+  // ========================================
+  // 1. LOCATION SELECTION MAP
+  // ========================================
 
-// Allow users to click the map to select a location
-selectMap.on("click", function(event) {
-  const lat = event.latlng.lat;
-  const lng = event.latlng.lng;
-
-  window.OPIRG.selectedCoordinates = { lat, lng };
-
-  document.getElementById("latitude").value = lat;
-  document.getElementById("longitude").value = lng;
-
-  document.getElementById("selectedLocation").textContent =
-    `Selected coordinates: ${lat.toFixed(5)}, ${lng.toFixed(5)}`;
-
-  if (selectedMarker) {
-    selectMap.removeLayer(selectedMarker);
-  }
-
-  selectedMarker = L.marker([lat, lng]).addTo(selectMap);
-  selectedMarker.bindPopup("Selected pollution location").openPopup();
-});
-
-// Public map for approved pollution reports
-const reportsMap = L.map("reportsMap").setView([13.7563, 100.5018], 6);
-
-L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-  attribution: '&copy; OpenStreetMap contributors'
-}).addTo(reportsMap);
-
-// Expose the map so we can add database reports later
-window.OPIRG.reportsMap = reportsMap;
-
-
-window.OPIRG.addPublicMarker = function(report) {
-
-  const marker = L.marker([
-    report.latitude,
-    report.longitude
-  ]).addTo(window.OPIRG.reportsMap);
-
-  marker.bindPopup(`
-    <strong>${report.pollution_type}</strong><br>
-    Location: ${report.location_name}<br>
-    Quantity: ${report.quantity}<br>
-    Date: ${report.observed_on}
-  `);
-
-  window.OPIRG.markers.push(marker);
-
-  // Center the map on the new report
-  window.OPIRG.reportsMap.setView(
-    [report.latitude, report.longitude],
-    12
+  const selectMap = L.map("selectMap").setView(
+    [13.7563, 100.5018],
+    6
   );
 
-  // Open the marker popup
-  marker.openPopup();
+  L.tileLayer(
+    "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+    {
+      attribution: "&copy; OpenStreetMap contributors",
+      maxZoom: 19
+    }
+  ).addTo(selectMap);
 
-  // Return marker for the report card button
-  return marker;
-};
+  let selectedMarker = null;
 
-  const marker = L.marker([
-    report.latitude,
-    report.longitude
-  ]).addTo(reportsMap);
+  selectMap.on("click", function(event) {
 
-  marker.bindPopup(`
-    <strong>${report.pollution_type}</strong><br>
-    ${report.location_name}<br>
-    Quantity: ${report.quantity}<br>
-    <a href="#report-${report.id}">View report</a>
-  `);
-};
+    const lat = event.latlng.lat;
+    const lng = event.latlng.lng;
+
+    window.OPIRG.selectedCoordinates = { lat, lng };
+
+    document.getElementById("latitude").value = lat;
+    document.getElementById("longitude").value = lng;
+
+    document.getElementById("selectedLocation").textContent =
+      "Selected coordinates: " +
+      lat.toFixed(5) + ", " +
+      lng.toFixed(5);
+
+    if (selectedMarker) {
+      selectMap.removeLayer(selectedMarker);
+    }
+
+    selectedMarker = L.marker([lat, lng])
+      .addTo(selectMap)
+      .bindPopup("Selected pollution location")
+      .openPopup();
+
+  });
+
+  // ========================================
+  // 2. PUBLIC POLLUTION MAP
+  // ========================================
+
+  const reportsMap = L.map("reportsMap").setView(
+    [13.7563, 100.5018],
+    6
+  );
+
+  L.tileLayer(
+    "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+    {
+      attribution: "&copy; OpenStreetMap contributors",
+      maxZoom: 19
+    }
+  ).addTo(reportsMap);
+
+  window.OPIRG.reportsMap = reportsMap;
+
+  // ========================================
+  // 3. ADD POLLUTION MARKERS
+  // ========================================
+
+  window.OPIRG.addPublicMarker = function(report) {
+
+    const marker = L.marker([
+      Number(report.latitude),
+      Number(report.longitude)
+    ]).addTo(reportsMap);
+
+    const popup = document.createElement("div");
+
+    const title = document.createElement("strong");
+    title.textContent = report.pollution_type;
+
+    const location = document.createElement("p");
+    location.textContent = "Location: " + report.location_name;
+
+    const quantity = document.createElement("p");
+    quantity.textContent = "Quantity: " + report.quantity;
+
+    popup.append(title, location, quantity);
+
+    marker.bindPopup(popup);
+
+    window.OPIRG.markers.push(marker);
+
+    reportsMap.setView(
+      [report.latitude, report.longitude],
+      10
+    );
+
+    marker.openPopup();
+
+    return marker;
+  };
+
+  // ========================================
+  // 4. REFRESH MAP DISPLAY
+  // ========================================
+
+  window.addEventListener("load", function() {
+
+    setTimeout(function() {
+      selectMap.invalidateSize();
+      reportsMap.invalidateSize();
+    }, 500);
+
+  });
+
+  console.log("OPIRG maps successfully initialized!");
+
+}
