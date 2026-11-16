@@ -191,3 +191,19 @@ footer p {
     height: 300px;
   }
 }
+
+/* OPIRG MAP DISPLAY FIX */
+
+#selectMap,
+#reportsMap {
+  width: 100%;
+  height: 420px;
+  min-height: 300px;
+}
+
+.map-container {
+  width: 100%;
+  height: 420px;
+  min-height: 300px;
+  display: block;
+}
